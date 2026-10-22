@@ -1,0 +1,402 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="LEVI worship team dashboard">
+  <title>LEVI | Home</title>
+
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+  <div class="app-shell">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <a class="brand" href="dashboard.html" aria-label="LEVI Home">
+        <svg class="brand-mark" viewBox="0 0 48 48" fill="none"
+             aria-hidden="true">
+          <path d="M27 3v26a10 10 0 1 1-7-9.54V11h7v18"
+                stroke="currentColor" stroke-width="5"
+                stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M27 11h13M34 4v14"
+                stroke="#20B981" stroke-width="5"
+                stroke-linecap="round"/>
+        </svg>
+        <span>LEVI</span>
+      </a>
+
+      <label class="search-box">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="10.8" cy="10.8" r="6.8"/>
+          <path d="m16 16 4.5 4.5"/>
+        </svg>
+        <input id="dashboardSearch"
+               type="search"
+               placeholder="Search songs, programs..."
+               aria-label="Search dashboard">
+        <button id="clearSearch" class="clear-search"
+                type="button" aria-label="Clear search" hidden>×</button>
+      </label>
+
+      <div class="header-actions">
+        <button class="icon-button notification-button"
+                id="notificationButton"
+                aria-label="Notifications"
+                type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
+            <path d="M10 21h4"/>
+          </svg>
+          <span class="notification-dot"></span>
+        </button>
+
+        <button class="profile-button" id="profileButton"
+                type="button" aria-label="Personal account">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 21a8 8 0 0 1 16 0"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="main-content">
+
+      <!-- NEXT SERVICE -->
+      <section class="service-card" id="nextService">
+        <a class="service-heading" href="programs.html">
+          <span class="service-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="16" rx="3"/>
+              <path d="M7 3v4M17 3v4M3 10h18"/>
+              <path d="M8 14h2M14 14h2M8 17h2"/>
+            </svg>
+          </span>
+
+          <span class="service-heading-copy">
+            <strong>Your Next Service</strong>
+            <span>Your worship schedule will appear here.</span>
+          </span>
+
+          <svg class="chevron" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="m9 18 6-6-6-6"/>
+          </svg>
+        </a>
+
+        <div class="service-empty">
+          <div class="calendar-art" aria-hidden="true">
+            <svg viewBox="0 0 100 100" fill="none">
+              <rect x="20" y="24" width="60" height="59"
+                    rx="10" stroke="currentColor" stroke-width="5"/>
+              <path d="M34 16v16M66 16v16M21 41h58"
+                    stroke="currentColor" stroke-width="5"
+                    stroke-linecap="round"/>
+              <path d="M37 57c10-1 15 5 13 15-9 0-15-5-13-15Z"
+                    stroke="#20B981" stroke-width="4"
+                    stroke-linejoin="round"/>
+              <path d="M51 73c0-12 7-17 16-17 0 10-5 17-16 17Z"
+                    stroke="#20B981" stroke-width="4"
+                    stroke-linejoin="round"/>
+            </svg>
+          </div>
+
+          <h1>You're all set to begin</h1>
+          <p>
+            There are no upcoming services assigned to you yet.
+            When your team leader publishes a program, it will appear here.
+          </p>
+
+          <div class="waiting-pill">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 21V11M12 15C5 15 3 10 3 6c6 0 9 3 9 9ZM12 12c0-6 4-9 9-9 0 6-3 10-9 10"/>
+            </svg>
+            <span>Waiting for your first program</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- UPDATES -->
+      <section class="updates-section" id="updates">
+        <div class="section-heading">
+          <div class="section-heading-main">
+            <span class="section-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m3 11 18-7v16L3 13v-2Z"/>
+                <path d="m7 14 2 7h5l-3-9M21 9l2-2M21 16l2 2"/>
+              </svg>
+            </span>
+            <div>
+              <h2>Updates</h2>
+              <p>Events, reminders and important information.</p>
+            </div>
+          </div>
+
+          <a class="view-all" href="updates.html">
+            View all
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 12h14M13 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+
+        <div class="updates-track" id="updatesTrack">
+
+          <!-- DEMO UPDATE 1 -->
+          <article class="update-card" data-search="youth worship night event">
+            <a class="poster poster-youth" href="updates.html"
+               aria-label="Youth Worship Night update">
+              <img
+                src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=800&q=80"
+                alt="Crowd at a live music event"
+                loading="lazy">
+              <span class="poster-date">
+                <small>OCT</small><strong>25</strong>
+              </span>
+              <span class="poster-overlay">YOUTH WORSHIP NIGHT</span>
+            </a>
+
+            <div class="update-body">
+              <span class="update-type event-type">EVENT</span>
+              <h3>Youth Worship Night</h3>
+              <p>Join us for an evening of worship, prayer and fellowship.</p>
+              <div class="update-meta">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="3" y="5" width="18" height="16" rx="2"/>
+                  <path d="M7 3v4M17 3v4M3 10h18"/>
+                </svg>
+                <span>Event announcement</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- DEMO UPDATE 2 -->
+          <article class="update-card"
+                   data-search="team meeting reminder rehearsal">
+            <a class="poster poster-reminder" href="updates.html"
+               aria-label="Team Meeting Reminder update">
+              <img
+                src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80"
+                alt="Team working together"
+                loading="lazy">
+              <span class="poster-date">
+                <small>OCT</small><strong>22</strong>
+              </span>
+              <span class="poster-overlay">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
+                  <path d="M10 21h4"/>
+                </svg>
+                REMINDER
+              </span>
+            </a>
+
+            <div class="update-body">
+              <span class="update-type reminder-type">REMINDER</span>
+              <h3>Team Meeting Reminder</h3>
+              <p>Team members, check the latest meeting announcement.</p>
+              <div class="update-meta">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="3" y="5" width="18" height="16" rx="2"/>
+                  <path d="M7 3v4M17 3v4M3 10h18"/>
+                </svg>
+                <span>Team announcement</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- DEMO UPDATE 3 -->
+          <article class="update-card"
+                   data-search="new devotional series bible scripture">
+            <a class="poster poster-devotion" href="updates.html"
+               aria-label="New Devotional Series update">
+              <img
+                src="https://images.unsplash.com/photo-1504052434569-70ad5836ab65?auto=format&fit=crop&w=800&q=80"
+                alt="Open Bible on a table"
+                loading="lazy">
+              <span class="poster-date">
+                <small>OCT</small><strong>20</strong>
+              </span>
+              <span class="poster-overlay">GROW IN THE WORD</span>
+            </a>
+
+            <div class="update-body">
+              <span class="update-type info-type">DEVOTION</span>
+              <h3>New Devotional Series</h3>
+              <p>Explore a new series designed to strengthen your daily walk with God.</p>
+              <div class="update-meta">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="3" y="5" width="18" height="16" rx="2"/>
+                  <path d="M7 3v4M17 3v4M3 10h18"/>
+                </svg>
+                <span>Devotional announcement</span>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <p class="no-results" id="noSearchResults" hidden>
+          No matching updates found.
+        </p>
+      </section>
+
+      <!-- DAILY DEVOTION -->
+      <section class="devotion-banner" id="dailyDevotion">
+        <div class="devotion-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 6C9 3 5 3 3 4v16c3-1 6-1 9 2 3-3 6-3 9-2V4c-2-1-6-1-9 2Z"/>
+            <path d="M12 6v16"/>
+          </svg>
+        </div>
+
+        <div class="devotion-copy">
+          <h2>Daily Devotion</h2>
+          <p>A little time with God each day makes a big difference.</p>
+          <a href="devotion.html" class="devotion-link">
+            Read today
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 12h14M13 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+
+        <div class="devotion-decoration" aria-hidden="true">
+          <svg viewBox="0 0 120 120" fill="none">
+            <path d="M60 105V43M60 69C36 69 24 53 24 33c23 0 36 14 36 36ZM60 54c0-24 16-38 37-38 0 24-14 39-37 39Z"
+                  stroke="currentColor" stroke-width="5"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- BOTTOM NAVIGATION -->
+    <nav class="bottom-nav" aria-label="Main navigation">
+      <a class="nav-item active" href="dashboard.html"
+         aria-current="page">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1V10Z"/>
+        </svg>
+        <span>Home</span>
+      </a>
+
+      <a class="nav-item" href="programs.html">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="5" width="18" height="16" rx="3"/>
+          <path d="M7 3v4M17 3v4M3 10h18M8 14h2M14 14h2M8 17h2"/>
+        </svg>
+        <span>Programs</span>
+      </a>
+
+      <a class="nav-item" href="songs.html">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M9 18V5l12-2v13"/>
+          <circle cx="6" cy="18" r="3"/>
+          <circle cx="18" cy="16" r="3"/>
+        </svg>
+        <span>Songs</span>
+      </a>
+
+      <a class="nav-item" href="chat.html">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5a9 9 0 0 1-.9-4A8.5 8.5 0 0 1 12.5 3H13a8.5 8.5 0 0 1 8 8v.5Z"/>
+          <path d="M8 12h.01M12 12h.01M16 12h.01"/>
+        </svg>
+        <span>Chat</span>
+      </a>
+
+      <a class="nav-item" href="updates.html">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m3 11 18-7v16L3 13v-2Z"/>
+          <path d="m7 14 2 7h5l-3-9M21 9l2-2M21 16l2 2"/>
+        </svg>
+        <span>Updates</span>
+      </a>
+
+      <a class="nav-item" href="settings.html">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="m19.4 15 .1.1 1.4 1.1-1.5 2.6-1.7-.6a8 8 0 0 1-1.6.9l-.3 1.8h-3l-.3-1.8a8 8 0 0 1-1.6-.9l-1.7.6-1.5-2.6 1.4-1.1a8 8 0 0 1 0-1.9l-1.4-1.2 1.5-2.5 1.7.6a8 8 0 0 1 1.6-.9l.3-1.8h3l.3 1.8a8 8 0 0 1 1.6.9l1.7-.6 1.5 2.5-1.4 1.2a8 8 0 0 1 0 1.9Z"
+                transform="translate(-1 -1)"/>
+        </svg>
+        <span>Settings</span>
+      </a>
+    </nav>
+
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script type="module">
+    const searchInput = document.getElementById("dashboardSearch");
+    const clearButton = document.getElementById("clearSearch");
+    const updateCards = [...document.querySelectorAll(".update-card")];
+    const noResults = document.getElementById("noSearchResults");
+    const toast = document.getElementById("toast");
+    let toastTimer;
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("visible");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove("visible");
+      }, 2600);
+    }
+
+    function filterUpdates() {
+      const query = searchInput.value.trim().toLowerCase();
+      let visible = 0;
+
+      updateCards.forEach(card => {
+        const matches = card.textContent.toLowerCase().includes(query)
+          || (card.dataset.search || "").includes(query);
+
+        card.hidden = !matches;
+        if (matches) visible++;
+      });
+
+      noResults.hidden = visible > 0;
+      clearButton.hidden = !query;
+    }
+
+    searchInput.addEventListener("input", filterUpdates);
+
+    clearButton.addEventListener("click", () => {
+      searchInput.value = "";
+      filterUpdates();
+      searchInput.focus();
+    });
+
+    document.getElementById("notificationButton")
+      .addEventListener("click", () => {
+        showToast("You're all caught up with this demo.");
+      });
+
+    document.getElementById("profileButton")
+      .addEventListener("click", () => {
+        window.location.href = "settings.html";
+      });
+
+    // Keep unfinished destinations from leading to a 404.
+    // Replace this with real navigation as each page is built.
+    document.querySelectorAll(
+      'a[href="programs.html"], a[href="songs.html"], ' +
+      'a[href="chat.html"], a[href="updates.html"], ' +
+      'a[href="settings.html"], a[href="devotion.html"]'
+    ).forEach(link => {
+      link.addEventListener("click", event => {
+        event.preventDefault();
+        const page = link.getAttribute("href");
+        showToast(page.replace(".html", "") +
+          " will be connected when that page is ready.");
+      });
+    });
+  </script>
+</body>
+</html>
