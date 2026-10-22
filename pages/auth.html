@@ -13,28 +13,22 @@
 
 <body class="auth-page">
 
-  <!-- =========================================
-       LEVI BRAND HEADER
-       ========================================= -->
   <main class="auth-layout">
 
+    <!-- LEVI BRAND HEADER -->
     <header class="brand">
       <div class="brand-mark" aria-hidden="true">♪</div>
       <h1>LEVI</h1>
       <p class="tagline">WORSHIP · SERVE · GROW</p>
     </header>
 
-    <!-- =========================================
-         AUTHENTICATION CARD
-         ========================================= -->
+    <!-- AUTHENTICATION CARD -->
     <section class="card">
 
       <div id="notice" class="message"
            role="status" aria-live="polite"></div>
 
-      <!-- =======================================
-           01. SIGN IN
-           ======================================= -->
+      <!-- 01. SIGN IN -->
       <section class="view active" id="signin">
 
         <div class="heading">
@@ -62,9 +56,7 @@
                 class="text-button"
                 type="button"
                 data-view="reset"
-              >
-                Forgot password?
-              </button>
+              >Forgot password?</button>
             </div>
 
             <input
@@ -76,28 +68,20 @@
             >
           </div>
 
-          <button class="primary" type="submit">
-            Sign In
-          </button>
+          <button class="primary" type="submit">Sign In</button>
 
         </form>
 
         <p class="switch">
           New to LEVI?
-          <button
-            class="text-button"
-            type="button"
-            data-view="register"
-          >
+          <button class="text-button" type="button" data-view="register">
             Create an account
           </button>
         </p>
 
       </section>
 
-      <!-- =======================================
-           02. CREATE ACCOUNT
-           ======================================= -->
+      <!-- 02. CREATE ACCOUNT -->
       <section class="view" id="register">
 
         <div class="heading">
@@ -152,28 +136,20 @@
             >
           </div>
 
-          <button class="primary" type="submit">
-            Create Account
-          </button>
+          <button class="primary" type="submit">Create Account</button>
 
         </form>
 
         <p class="switch">
           Already have an account?
-          <button
-            class="text-button"
-            type="button"
-            data-view="signin"
-          >
+          <button class="text-button" type="button" data-view="signin">
             Sign in
           </button>
         </p>
 
       </section>
 
-      <!-- =======================================
-           03. PASSWORD RESET
-           ======================================= -->
+      <!-- 03. PASSWORD RESET -->
       <section class="view" id="reset">
 
         <div class="heading">
@@ -202,11 +178,7 @@
 
         <p class="switch">
           Remember your password?
-          <button
-            class="text-button"
-            type="button"
-            data-view="signin"
-          >
+          <button class="text-button" type="button" data-view="signin">
             Back to sign in
           </button>
         </p>
@@ -215,18 +187,22 @@
 
     </section>
 
-    <!-- =========================================
-         FOOTER
-         ========================================= -->
+    <!-- FOOTER -->
     <p class="footer">LEVI · Your worship team workspace</p>
 
   </main>
 
-  <!-- =========================================
-       AUTHENTICATION INTERACTIONS
-       Firebase will be connected in a later step.
-       ========================================= -->
-  <script>
+  <!-- FIREBASE AUTHENTICATION -->
+  <script type="module">
+    import { auth, authReady } from "../firebase.js";
+
+    import {
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      sendPasswordResetEmail,
+      updateProfile
+    } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
+
     const views = document.querySelectorAll(".view");
     const notice = document.getElementById("notice");
 
@@ -252,27 +228,85 @@
       notice.style.display = "block";
     }
 
+    function friendlyError(error) {
+      const messages = {
+        "auth/invalid-email":
+          "Please enter a valid email address.",
+        "auth/invalid-credential":
+          "Your email or password is incorrect.",
+        "auth/user-not-found":
+          "No account was found. Check your email or register.",
+        "auth/wrong-password":
+          "Your email or password is incorrect.",
+        "auth/email-already-in-use":
+          "An account with this email already exists.",
+        "auth/weak-password":
+          "Please choose a stronger password.",
+        "auth/too-many-requests":
+          "Too many attempts. Please wait and try again.",
+        "auth/network-request-failed":
+          "Check your internet connection and try again.",
+        "auth/operation-not-allowed":
+          "Email/Password sign-in is not enabled in Firebase.",
+        "auth/unauthorized-domain":
+          "Authorize your GitHub Pages domain in Firebase settings."
+      };
+
+      return messages[error.code] ||
+        "Something went wrong. Please try again.";
+    }
+
+    // SIGN IN
     document.getElementById("signinForm").addEventListener(
       "submit",
-      event => {
+      async event => {
         event.preventDefault();
 
-        showMessage(
-          "The sign-in screen is ready. Firebase authentication has not been connected yet."
-        );
+        const button =
+          event.currentTarget.querySelector('[type="submit"]');
+
+        button.disabled = true;
+
+        try {
+          await authReady;
+
+          await signInWithEmailAndPassword(
+            auth,
+            document.getElementById("signinEmail").value.trim(),
+            document.getElementById("signinPassword").value
+          );
+
+          showMessage(
+            "You are signed in successfully. Your LEVI dashboard is the next step to connect."
+          );
+        } catch (error) {
+          showMessage(friendlyError(error), true);
+        } finally {
+          button.disabled = false;
+        }
       }
     );
 
+    // CREATE ACCOUNT
     document.getElementById("registerForm").addEventListener(
       "submit",
-      event => {
+      async event => {
         event.preventDefault();
+
+        const name =
+          document.getElementById("fullName").value.trim();
+
+        const email =
+          document.getElementById("registerEmail").value.trim();
 
         const password =
           document.getElementById("registerPassword").value;
 
         const confirmation =
           document.getElementById("confirmPassword").value;
+
+        const button =
+          event.currentTarget.querySelector('[type="submit"]');
 
         if (password !== confirmation) {
           showMessage(
@@ -282,24 +316,70 @@
           return;
         }
 
-        showMessage(
-          "The registration screen is ready. Account creation will be enabled after Firebase is connected."
-        );
+        if (password.length < 8) {
+          showMessage(
+            "Your password must contain at least 8 characters.",
+            true
+          );
+          return;
+        }
+
+        button.disabled = true;
+
+        try {
+          await authReady;
+
+          const result = await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+
+          await updateProfile(result.user, {
+            displayName: name
+          });
+
+          showMessage(
+            "Your account has been created. Admin approval and member access restrictions still need to be configured."
+          );
+        } catch (error) {
+          showMessage(friendlyError(error), true);
+        } finally {
+          button.disabled = false;
+        }
       }
     );
 
+    // PASSWORD RESET
     document.getElementById("resetForm").addEventListener(
       "submit",
-      event => {
+      async event => {
         event.preventDefault();
 
-        showMessage(
-          "Password reset will be enabled after Firebase is connected."
-        );
+        const email =
+          document.getElementById("resetEmail").value.trim();
+
+        const button =
+          event.currentTarget.querySelector('[type="submit"]');
+
+        button.disabled = true;
+
+        try {
+          await authReady;
+
+          await sendPasswordResetEmail(auth, email);
+
+          showMessage(
+            "If an account exists for this address, a reset email has been sent. Check your inbox and spam folder."
+          );
+        } catch (error) {
+          showMessage(friendlyError(error), true);
+        } finally {
+          button.disabled = false;
+        }
       }
     );
   </script>
 
 </body>
 </html>
-
