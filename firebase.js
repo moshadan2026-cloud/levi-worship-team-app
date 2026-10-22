@@ -7,7 +7,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCyu1zzTuBWRtv8H_yT4AQkdx42UwS9j0",
+  apiKey: "AIzaSyCyu1zzTuBWRtv8H_y4T0AQkdx42UwS9j0",
   authDomain: "levi-worship-team.firebaseapp.com",
   projectId: "levi-worship-team",
   storageBucket: "levi-worship-team.firebasestorage.app",
