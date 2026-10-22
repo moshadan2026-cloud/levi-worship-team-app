@@ -326,71 +326,93 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script type="module">
-    const searchInput = document.getElementById("dashboardSearch");
-    const clearButton = document.getElementById("clearSearch");
-    const updateCards = [...document.querySelectorAll(".update-card")];
-    const noResults = document.getElementById("noSearchResults");
-    const toast = document.getElementById("toast");
-    let toastTimer;
+<script type="module">
+  import { auth, authReady } from "../firebase.js";
+  import {
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
 
-    function showToast(message) {
-      toast.textContent = message;
-      toast.classList.add("visible");
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => {
-        toast.classList.remove("visible");
-      }, 2600);
-    }
+  const searchInput = document.getElementById("dashboardSearch");
+  const clearButton = document.getElementById("clearSearch");
+  const updateCards = [...document.querySelectorAll(".update-card")];
+  const noResults = document.getElementById("noSearchResults");
+  const toast = document.getElementById("toast");
+  let toastTimer;
 
-    function filterUpdates() {
-      const query = searchInput.value.trim().toLowerCase();
-      let visible = 0;
+  function showToast(message) {
+    toast.textContent = message;
+    toast.classList.add("visible");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toast.classList.remove("visible");
+    }, 2600);
+  }
 
-      updateCards.forEach(card => {
-        const matches = card.textContent.toLowerCase().includes(query)
-          || (card.dataset.search || "").includes(query);
+  function filterUpdates() {
+    const query = searchInput.value.trim().toLowerCase();
+    let visible = 0;
 
-        card.hidden = !matches;
-        if (matches) visible++;
-      });
+    updateCards.forEach(card => {
+      const matches =
+        card.textContent.toLowerCase().includes(query) ||
+        (card.dataset.search || "").toLowerCase().includes(query);
 
-      noResults.hidden = visible > 0;
-      clearButton.hidden = !query;
-    }
-
-    searchInput.addEventListener("input", filterUpdates);
-
-    clearButton.addEventListener("click", () => {
-      searchInput.value = "";
-      filterUpdates();
-      searchInput.focus();
+      card.hidden = !matches;
+      if (matches) visible++;
     });
 
-    document.getElementById("notificationButton")
-      .addEventListener("click", () => {
-        showToast("You're all caught up with this demo.");
-      });
+    noResults.hidden = visible > 0;
+    clearButton.hidden = !query;
+  }
 
-    document.getElementById("profileButton")
-      .addEventListener("click", () => {
-        window.location.href = "settings.html";
-      });
+  searchInput.addEventListener("input", filterUpdates);
 
-    // Keep unfinished destinations from leading to a 404.
-    // Replace this with real navigation as each page is built.
-    document.querySelectorAll(
-      'a[href="programs.html"], a[href="songs.html"], ' +
-      'a[href="chat.html"], a[href="updates.html"], ' +
-      'a[href="settings.html"], a[href="devotion.html"]'
-    ).forEach(link => {
-      link.addEventListener("click", event => {
-        event.preventDefault();
-        const page = link.getAttribute("href");
-        showToast(page.replace(".html", "") +
-          " will be connected when that page is ready.");
-      });
+  clearButton.addEventListener("click", () => {
+    searchInput.value = "";
+    filterUpdates();
+    searchInput.focus();
+  });
+
+  document.getElementById("notificationButton")
+    .addEventListener("click", () => {
+      showToast("You're all caught up with this demo.");
     });
-  </script>
+
+  document.getElementById("profileButton")
+    .addEventListener("click", () => {
+      window.location.href = "settings.html";
+    });
+
+  document.querySelectorAll(
+    'a[href="programs.html"], a[href="songs.html"], ' +
+    'a[href="chat.html"], a[href="updates.html"], ' +
+    'a[href="settings.html"], a[href="devotion.html"]'
+  ).forEach(link => {
+    link.addEventListener("click", event => {
+      event.preventDefault();
+      const page = link.getAttribute("href");
+      showToast(
+        page.replace(".html", "") +
+        " will be connected when that page is ready."
+      );
+    });
+  });
+
+  // Wait for Firebase to restore the user's sign-in session.
+  try {
+    await authReady;
+
+    onAuthStateChanged(auth, user => {
+      if (!user) {
+        window.location.replace("auth.html");
+      }
+    });
+  } catch (error) {
+    console.error("Authentication check failed:", error);
+    showToast("Unable to verify sign-in. Please refresh.");
+  }
+</script>
+
+
 </body>
 </html>
