@@ -1,1 +1,305 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+  <title>LEVI | Sign In</title>
+
+  <!-- LEVI SHARED STYLESHEET -->
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+<body class="auth-page">
+
+  <!-- =========================================
+       LEVI BRAND HEADER
+       ========================================= -->
+  <main class="auth-layout">
+
+    <header class="brand">
+      <div class="brand-mark" aria-hidden="true">♪</div>
+      <h1>LEVI</h1>
+      <p class="tagline">WORSHIP · SERVE · GROW</p>
+    </header>
+
+    <!-- =========================================
+         AUTHENTICATION CARD
+         ========================================= -->
+    <section class="card">
+
+      <div id="notice" class="message"
+           role="status" aria-live="polite"></div>
+
+      <!-- =======================================
+           01. SIGN IN
+           ======================================= -->
+      <section class="view active" id="signin">
+
+        <div class="heading">
+          <h2>Welcome back</h2>
+          <p>Sign in to connect with your worship team.</p>
+        </div>
+
+        <form id="signinForm">
+
+          <div class="field">
+            <label for="signinEmail">Email address</label>
+            <input
+              id="signinEmail"
+              type="email"
+              autocomplete="email"
+              placeholder="you@example.com"
+              required
+            >
+          </div>
+
+          <div class="field">
+            <div class="password-row">
+              <label for="signinPassword">Password</label>
+              <button
+                class="text-button"
+                type="button"
+                data-view="reset"
+              >
+                Forgot password?
+              </button>
+            </div>
+
+            <input
+              id="signinPassword"
+              type="password"
+              autocomplete="current-password"
+              placeholder="Enter your password"
+              required
+            >
+          </div>
+
+          <button class="primary" type="submit">
+            Sign In
+          </button>
+
+        </form>
+
+        <p class="switch">
+          New to LEVI?
+          <button
+            class="text-button"
+            type="button"
+            data-view="register"
+          >
+            Create an account
+          </button>
+        </p>
+
+      </section>
+
+      <!-- =======================================
+           02. CREATE ACCOUNT
+           ======================================= -->
+      <section class="view" id="register">
+
+        <div class="heading">
+          <h2>Create your account</h2>
+          <p>Join your worship team on LEVI.</p>
+        </div>
+
+        <form id="registerForm">
+
+          <div class="field">
+            <label for="fullName">Full name</label>
+            <input
+              id="fullName"
+              type="text"
+              autocomplete="name"
+              placeholder="Your full name"
+              required
+            >
+          </div>
+
+          <div class="field">
+            <label for="registerEmail">Email address</label>
+            <input
+              id="registerEmail"
+              type="email"
+              autocomplete="email"
+              placeholder="you@example.com"
+              required
+            >
+          </div>
+
+          <div class="field">
+            <label for="registerPassword">Create password</label>
+            <input
+              id="registerPassword"
+              type="password"
+              autocomplete="new-password"
+              minlength="8"
+              placeholder="At least 8 characters"
+              required
+            >
+          </div>
+
+          <div class="field">
+            <label for="confirmPassword">Confirm password</label>
+            <input
+              id="confirmPassword"
+              type="password"
+              autocomplete="new-password"
+              placeholder="Enter your password again"
+              required
+            >
+          </div>
+
+          <button class="primary" type="submit">
+            Create Account
+          </button>
+
+        </form>
+
+        <p class="switch">
+          Already have an account?
+          <button
+            class="text-button"
+            type="button"
+            data-view="signin"
+          >
+            Sign in
+          </button>
+        </p>
+
+      </section>
+
+      <!-- =======================================
+           03. PASSWORD RESET
+           ======================================= -->
+      <section class="view" id="reset">
+
+        <div class="heading">
+          <h2>Reset password</h2>
+          <p>Enter your email to request a password-reset link.</p>
+        </div>
+
+        <form id="resetForm">
+
+          <div class="field">
+            <label for="resetEmail">Email address</label>
+            <input
+              id="resetEmail"
+              type="email"
+              autocomplete="email"
+              placeholder="you@example.com"
+              required
+            >
+          </div>
+
+          <button class="primary" type="submit">
+            Request Reset Link
+          </button>
+
+        </form>
+
+        <p class="switch">
+          Remember your password?
+          <button
+            class="text-button"
+            type="button"
+            data-view="signin"
+          >
+            Back to sign in
+          </button>
+        </p>
+
+      </section>
+
+    </section>
+
+    <!-- =========================================
+         FOOTER
+         ========================================= -->
+    <p class="footer">LEVI · Your worship team workspace</p>
+
+  </main>
+
+  <!-- =========================================
+       AUTHENTICATION INTERACTIONS
+       Firebase will be connected in a later step.
+       ========================================= -->
+  <script>
+    const views = document.querySelectorAll(".view");
+    const notice = document.getElementById("notice");
+
+    function showView(name) {
+      views.forEach(view => {
+        view.classList.toggle("active", view.id === name);
+      });
+
+      notice.style.display = "none";
+      notice.textContent = "";
+      notice.classList.remove("error");
+    }
+
+    document.querySelectorAll("[data-view]").forEach(button => {
+      button.addEventListener("click", () => {
+        showView(button.dataset.view);
+      });
+    });
+
+    function showMessage(message, isError = false) {
+      notice.textContent = message;
+      notice.classList.toggle("error", isError);
+      notice.style.display = "block";
+    }
+
+    document.getElementById("signinForm").addEventListener(
+      "submit",
+      event => {
+        event.preventDefault();
+
+        showMessage(
+          "The sign-in screen is ready. Firebase authentication has not been connected yet."
+        );
+      }
+    );
+
+    document.getElementById("registerForm").addEventListener(
+      "submit",
+      event => {
+        event.preventDefault();
+
+        const password =
+          document.getElementById("registerPassword").value;
+
+        const confirmation =
+          document.getElementById("confirmPassword").value;
+
+        if (password !== confirmation) {
+          showMessage(
+            "Your passwords do not match. Please try again.",
+            true
+          );
+          return;
+        }
+
+        showMessage(
+          "The registration screen is ready. Account creation will be enabled after Firebase is connected."
+        );
+      }
+    );
+
+    document.getElementById("resetForm").addEventListener(
+      "submit",
+      event => {
+        event.preventDefault();
+
+        showMessage(
+          "Password reset will be enabled after Firebase is connected."
+        );
+      }
+    );
+  </script>
+
+</body>
+</html>
+
